@@ -7,6 +7,7 @@ from torchvision import transforms
 from PIL import Image
 import time
 from utils.CNN_weed_classifier import WeedClassifierCNN
+import cv2
 
 # パラメータ設定
 batch_size = 16
@@ -15,17 +16,21 @@ num_epochs = 10
 input_size = (522, 318)
 num_classes = 3  # 雑草の有無を3クラス分類
 
-# CNNモデル定義
     
 # モデルの読み込み
-model_path = "./models/weed_classifier_ep30.pth"
+EP = 20
+model_path = f"./models/weed_classifier_ep{EP}.pth"
 model = WeedClassifierCNN()
-model.load_state_dict(torch.load(model_path, map_location=torch.device("cpu")))
+model.load_state_dict(torch.load(model_path, weights_only=True))
 model.eval()  # 推論モードに設定
 
 # 推論対象画像の準備
-image_path = "./datasets/val/no_weed/frame_0000_0_0_1_2_factor_1.0.jpg"  # 推論したい画像のパス
+image_path = "./datasets/val/many_weed/frame_0011_1_2_1_factor_0.5.jpg"  # 推論したい画像のパス
 input_size = (522, 318)
+
+img = cv2.imread(image_path)
+cv2.imshow("Image", img)
+
 
 transform = transforms.Compose([
     transforms.Resize(input_size),  # モデルの入力サイズにリサイズ
@@ -53,3 +58,4 @@ class_labels = ["No Weed", "Little Weeds", "Many Weeds"]
 # 推論結果の表示
 print(f"Predicted Class: {class_labels[predicted.item()]}")
 print(f"Processing Time: {end_time - start_time:.4f} seconds")
+cv2.waitKey(0)

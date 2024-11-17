@@ -3,8 +3,8 @@
 """
 import json
 import matplotlib.pyplot as plt
-
-JSON_FILE_PATH = "./models/weed_classifier_metrics_ep30.json"
+EP = 30
+JSON_FILE_PATH = f"./models/weed_classifier_metrics_ep{EP}.json"
 # JSONファイルの読み込み
 with open(JSON_FILE_PATH, "r") as f:
     metrics = json.load(f)
@@ -26,7 +26,7 @@ plt.xlabel("Epoch")
 plt.ylabel("Loss")
 plt.legend()
 plt.grid(True)
-plt.savefig("./figures/loss_curve.png")  # グラフをファイルに保存
+plt.savefig(f"./figures/loss_curve_ep{EP}.png")  # グラフをファイルに保存
 plt.show()
 
 # 正解率のグラフ
@@ -38,5 +38,5 @@ plt.xlabel("Epoch")
 plt.ylabel("Accuracy (%)")
 plt.legend()
 plt.grid(True)
-plt.savefig("./figures/accuracy_curve.png")  # グラフをファイルに保存
+plt.savefig(f"./figures/accuracy_curve_ep{EP}.png")  # グラフをファイルに保存
 plt.show()

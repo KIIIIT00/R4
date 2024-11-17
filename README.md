@@ -23,6 +23,10 @@ It is not intended for use by third parties.
 │      ├─little_weed
 │      ├─many_weed
 │      └─no_weed
+├─flash_imgs # 元の画像
+│  ├─little_weed
+│  ├─many_weed
+│  └─no_weed
 ├─figures # CNNの損失，正解率のグラフなどを格納
 ├─models # 学習済みモデルや結果を格納
 ├─utils # 使いまわすロジック
