@@ -2,7 +2,7 @@ This repository is a weed detection program used in the R4 project, a project un
 It is not intended for use by third parties.
 
 <div id="top"></div>
-## 目次
+目次
 
 1. [プロジェクトについて](#1プロジェクトについて)
 2. [ディレクトリ構造](#2ディレクトリ構造)
@@ -37,7 +37,7 @@ It is not intended for use by third parties.
 
 
 ## 3.環境構築
-### 環境構築
+#### 環境構築
 
 ```
 pip install -r requirements.txt
