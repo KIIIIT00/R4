@@ -1,3 +1,6 @@
+"""
+指定した動画をフレームに分割し，オリジナルとゆがみ補正したフレームでそれぞれ保存する
+"""
 import cv2
 import os
 import numpy as np

@@ -1,3 +1,6 @@
+"""
+指定した複数のフォルダの中にあるファイルをあるフォルダに保存する
+"""
 import os
 import cv2
 import shutil

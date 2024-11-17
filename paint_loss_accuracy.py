@@ -4,7 +4,7 @@
 import json
 import matplotlib.pyplot as plt
 
-JSON_FILE_PATH = "./models/weed_classifier_metrics.json"
+JSON_FILE_PATH = "./models/weed_classifier_metrics_ep30.json"
 # JSONファイルの読み込み
 with open(JSON_FILE_PATH, "r") as f:
     metrics = json.load(f)

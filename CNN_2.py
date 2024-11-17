@@ -1,3 +1,6 @@
+"""
+CNNでクラス分類をする
+"""
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -6,10 +9,12 @@ from torch.utils.data import DataLoader
 import os
 import json
 
+from utils.CNN_weed_classifier import WeedClassifierCNN
+
 # パラメータ設定
 batch_size = 16
 learning_rate = 0.001
-num_epochs = 10
+num_epochs = 30
 input_size = (522, 318)
 num_classes = 3  # 雑草の有無を3クラス分類
 
@@ -31,33 +36,6 @@ val_dataset = datasets.ImageFolder(root=val_dir, transform=transform)
 
 train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
 val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False)
-
-# CNNモデル定義
-class WeedClassifierCNN(nn.Module):
-    def __init__(self):
-        super(WeedClassifierCNN, self).__init__()
-        self.conv_layer = nn.Sequential(
-            nn.Conv2d(3, 16, kernel_size=3, stride=1, padding=1),  # 畳み込み
-            nn.ReLU(),  # 活性化
-            nn.MaxPool2d(kernel_size=2, stride=2),  # プーリング
-
-            nn.Conv2d(16, 32, kernel_size=3, stride=1, padding=1),  # 畳み込み
-            nn.ReLU(),  # 活性化
-            nn.MaxPool2d(kernel_size=2, stride=2)  # プーリング
-        )
-
-        # 全結合層
-        self.fc_layer = nn.Sequential(
-            nn.Linear(32 * (input_size[0] // 4) * (input_size[1] // 4), 128),  # フラット化→全結合
-            nn.ReLU(),
-            nn.Linear(128, num_classes)  # クラス数に合わせた出力
-        )
-
-    def forward(self, x):
-        x = self.conv_layer(x)  # 畳み込み層
-        x = x.view(x.size(0), -1)  # フラット化
-        x = self.fc_layer(x)  # 全結合層
-        return x
 
 # モデル、損失関数、最適化手法
 model = WeedClassifierCNN()
@@ -131,9 +109,9 @@ metrics = {
     "train_accuracies": train_accuracies,
     "val_accuracies": val_accuracies
 }
-with open("./models/weed_classifier_metrics.json", "w") as f:
+with open(f"./models/weed_classifier_metrics_ep{num_epochs}.json", "w") as f:
     json.dump(metrics, f)
 print("損失と正解率を保存しました")
 # モデルの保存
-torch.save(model.state_dict(), "./models/weed_classifier.pth")
+torch.save(model.state_dict(), f"./models/weed_classifier_ep{num_epochs}.pth")
 print("モデルを保存しました")

@@ -1,4 +1,6 @@
-from tkinter import Frame
+"""
+カメラの映像を動画にして保存
+"""
 import cv2
 
 # キャリブレーションデータ（例）

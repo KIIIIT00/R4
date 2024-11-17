@@ -1,3 +1,6 @@
+"""
+指定したフォルダを訓練用データとテスト用データに分割し，それぞれ保存する
+"""
 import os
 import shutil
 import random
