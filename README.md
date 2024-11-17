@@ -15,26 +15,23 @@ It is not intended for use by third parties.
 ## 2.ディレクトリ構造
 プロジェクトのディレクトリ構造は以下の通りです
 :
-
-- `datasets/`
-    - `train/` :CNNの訓練用データが格納されるフォルダ（クラスごと）
-        - `no_weed`
-        - `little_weed`
-        - `many_weed`
-    - `val`
-        - `no_weed`
-        - `little_weed`
-        - `many_weed`
-
-- `figures/` : CNNの損失，正解率のグラフなどを格納
-
-- `models/` :学習済みモデルや結果を格納
-- `utils/`　: 使いまわすロジック
-- `src/` :ソースコード
-- `.gitignore`
-- `README.md` 
-
-
+```
+.
+├─datasets # CNNの訓練用データが格納されるフォルダ（クラスごと）
+│  ├─train
+│  │  ├─little_weed
+│  │  ├─many_weed
+│  │  └─no_weed
+│  └─val
+│      ├─little_weed
+│      ├─many_weed
+│      └─no_weed
+├─figures # CNNの損失，正解率のグラフなどを格納
+├─models # 学習済みモデルや結果を格納
+├─utils # 使いまわすロジック
+├─.gitignore
+└─README.md
+```
 
 ## 3.環境構築
 #### 環境構築
