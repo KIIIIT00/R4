@@ -13,20 +13,34 @@ import time
 from utils.CNN_weed_classifier import WeedClassifierCNN
 
 def split_frame_into_9(frame):
-    # 画像の高さと幅を取得
+    height, width, _ = frame.shape
+    h_step = height // 3
+    w_step = width // 3
+    segments = []
+    positions = []
+    for i in range(3):
+        for j in range(3):
+            segments.append(frame[i*h_step:(i+1)*h_step, j*w_step:(j+1)*w_step])
+            positions.append((j*w_step, i*h_step))  # 座標情報を追加
+    return segments, positions  # 2つのリストを返す
+
+def draw_grid(frame):
     height, width, _ = frame.shape
     
-    # 3等分のサイズを計算
+    # 3等分の線を引く位置を計算
     h_step = height // 3
     w_step = width // 3
     
-    # 画像を9分割してリストに格納
-    segments = []
-    for i in range(3):
-        for j in range(3):
-            cropped_img = frame[i*h_step:(i+1)*h_step, j*w_step:(j+1)*w_step]
-            segments.append(cropped_img)
-    return segments
+    # 縦線を描画
+    for i in range(1, 3):
+        cv2.line(frame, (i * w_step, 0), (i * w_step, height), (0, 255, 0), 2)  # 緑色の線
+    
+    # 横線を描画
+    for i in range(1, 3):
+        cv2.line(frame, (0, i * h_step), (width, i * h_step), (0, 255, 0), 2)
+    
+    return frame
+
 
 # パラメータ設定
 batch_size = 16
@@ -102,17 +116,21 @@ while cap.isOpened():
     # reisize
     undistorted_frame = cv2.resize(undistorted_frame, (1566, 954))
     
-    # オリジナル画像の表示
-    cv2.imshow("Original Frame", undistorted_frame)
     
     # フレームを9分割
-    segments = split_frame_into_9(undistorted_frame)
+    segments, positions = split_frame_into_9(undistorted_frame)
+    
+    # 境界線を追加
+    frame_with_grid = draw_grid(undistorted_frame)
+    
+    # オリジナル画像の表示
+    cv2.imshow("Original Frame", frame_with_grid)
     
     frame_start_time = time.time()  # フレーム全体の処理時間計測
     
     # 各セグメントに対して推論開始
     segment_times = []
-    for idx, (segment, position) in enumerate(segments):
+    for idx, (segment, position) in enumerate(zip(segments, positions)):
         pil_image = Image.fromarray(cv2.cvtColor(segment, cv2.COLOR_BGR2RGB))
         image_tensor = transform(pil_image).unsqueeze(0)
         
@@ -130,13 +148,13 @@ while cap.isOpened():
         # 結果を元のフレームにオーバーレイ
         label = class_labels[predicted.item()]
         x, y = position
-        cv2.putText(undistorted_frame, label, (x + 10, y + 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
+        cv2.putText(frame_with_grid, label, (x + 10, y + 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
         
         #　分類結果の画像を保存
         out.write(undistorted_frame)
         
     # 結果の表示
-    cv2.imshow("Weed Detection", undistorted_frame)
+    cv2.imshow("Weed Detection", frame_with_grid)
     
     frame_end_time = time.time()
     frame_time = frame_end_time - frame_start_time  # フレーム全体の処理時間
