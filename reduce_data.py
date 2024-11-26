@@ -26,7 +26,8 @@ def balance_image_count(folders):
         print(f"{folder} 内の画像枚数: {len(images)}")
 
     # 最小の画像枚数を取得
-    min_count = min(len(images) for images in image_lists)
+    # min_count = min(len(images) for images in image_lists)
+    min_count = 200
     print(f"最小の画像枚数: {min_count}")
 
     # 各フォルダの画像を最小枚数に揃える

@@ -18,7 +18,7 @@ num_classes = 3  # 雑草の有無を3クラス分類
 
     
 # モデルの読み込み
-EP = 20
+EP = 40
 model_path = f"./models/weed_classifier_ep{EP}.pth"
 model = WeedClassifierCNN()
 model.load_state_dict(torch.load(model_path, weights_only=True))

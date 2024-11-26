@@ -3,8 +3,8 @@
 """
 import json
 import matplotlib.pyplot as plt
-EP = 30
-JSON_FILE_PATH = f"./models/weed_classifier_metrics_ep{EP}.json"
+EP = 20
+JSON_FILE_PATH = f"./models/weed_classifier_metrics_ep{EP}_160_4layers.json"
 # JSONファイルの読み込み
 with open(JSON_FILE_PATH, "r") as f:
     metrics = json.load(f)

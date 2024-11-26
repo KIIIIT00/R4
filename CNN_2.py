@@ -8,13 +8,14 @@ from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
 import os
 import json
+from sklearn.metrics import precision_score, recall_score, f1_score
 
 from utils.CNN_weed_classifier import WeedClassifierCNN
 
 # パラメータ設定
 batch_size = 16
 learning_rate = 0.001
-num_epochs = 30
+num_epochs = 10
 input_size = (522, 318)
 num_classes = 3  # 雑草の有無を3クラス分類
 
@@ -53,6 +54,9 @@ val_accuracies = []
 train_losses = []
 val_losses = []
 
+precision_list = []
+recall_list = []
+f1_list = []
 
 for epoch in range(num_epochs):
     model.train()
@@ -86,6 +90,9 @@ for epoch in range(num_epochs):
     val_loss = 0.0
     correct = 0
     total = 0
+    all_preds = []
+    all_labels = []
+    
     with torch.no_grad():
         for images, labels in val_loader:
             images, labels = images.to(device), labels.to(device)
@@ -96,22 +103,38 @@ for epoch in range(num_epochs):
             _, predicted = torch.max(outputs, 1)
             total += labels.size(0)
             correct += (predicted == labels).sum().item()
-
+            all_preds.extend(predicted.cpu().numpy())
+            all_labels.extend(labels.cpu().numpy())
+    
+    precision = precision_score(all_labels, all_preds, average='weighted')
+    recall = recall_score(all_labels, all_preds, average='weighted')
+    f1 = f1_score(all_labels, all_preds, average='weighted')
+    
+    precision_list.append(precision)
+    recall_list.append(recall)
+    f1_list.append(f1)
+    
     epoch_val_loss = val_loss /len(val_loader)
     val_losses.append(epoch_val_loss)
-    val_accuracies.append(100*correct/total)
+    val_accuracies.append(100 * (sum(1 for x, y in zip(all_preds, all_labels) if x == y) / len(all_labels)))
     
-    print(f"Validation Loss: {epoch_val_loss:.4f}, Accuracy: {100 * correct / total:.2f}%")
+    print(f"Validation Loss: {epoch_val_loss:.4f}, Accuracy: {val_accuracies[-1]:.2f}%")
+    print(f"Precision: {precision:.4f}, Recall: {recall:.4f}, F1 Score: {f1:.4f}")
+    
 
 metrics = {
     "train_losses": train_losses,
     "val_losses": val_losses,
     "train_accuracies": train_accuracies,
-    "val_accuracies": val_accuracies
+    "val_accuracies": val_accuracies,
+    "precision": precision_list,
+    "recall":recall_list,
+    "f1_score":f1_list
 }
-with open(f"./models/weed_classifier_metrics_ep{num_epochs}.json", "w") as f:
+
+with open(f"./models/weed_classifier_metrics_ep{num_epochs}_160_4layers.json", "w") as f:
     json.dump(metrics, f)
 print("損失と正解率を保存しました")
 # モデルの保存
-torch.save(model.state_dict(), f"./models/weed_classifier_ep{num_epochs}.pth")
+torch.save(model.state_dict(), f"./models/weed_classifier_ep{num_epochs}_160_4layers.pth")
 print("モデルを保存しました")
