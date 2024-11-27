@@ -148,7 +148,13 @@ while cap.isOpened():
         # 結果を元のフレームにオーバーレイ
         label = class_labels[predicted.item()]
         x, y = position
-        cv2.putText(frame_with_grid, label, (x + 10, y + 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
+        if label == class_labels[0]:# Case of "little weed"
+            text_color = (255, 0, 0)
+        elif label == class_labels[1]:# Case of "many weed"
+            text_color = (0, 255, 0)
+        else:
+            text_color = (0, 0, 255)
+        cv2.putText(frame_with_grid, label, (x + 10, y + 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, text_color, 2)
         
         #　分類結果の画像を保存
         out.write(undistorted_frame)
