@@ -103,7 +103,7 @@ transform = transforms.Compose([
 ])
 
 # クラスのラベル（適宜変更）
-class_labels = ["No Weed", "Little Weeds", "Many Weeds"]
+class_labels = ["little_weed", "many_weed", "no_weed"]
 
 
 while cap.isOpened():

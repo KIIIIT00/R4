@@ -34,7 +34,8 @@ transform = transforms.Compose([
 # データセットとデータローダー
 train_dataset = datasets.ImageFolder(root=train_dir, transform=transform)
 val_dataset = datasets.ImageFolder(root=val_dir, transform=transform)
-
+print(train_dataset.class_to_idx)
+print(val_dataset.class_to_idx)
 train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
 val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False)
 
