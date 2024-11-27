@@ -53,7 +53,7 @@ with torch.no_grad():
 end_time = time.time()
 
 # クラスのラベル（適宜変更）
-class_labels = ["No Weed", "Little Weeds", "Many Weeds"]
+class_labels = ["little_weed", "many_weed", "no_weed"]
 
 # 推論結果の表示
 print(f"Predicted Class: {class_labels[predicted.item()]}")
