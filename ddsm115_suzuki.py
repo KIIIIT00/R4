@@ -28,22 +28,26 @@ while True:
     #print(key)
     #key= "w"
     if key == "q":
+        print("Pressed 'q' key")
         serial_write(1,0)
         serial_write(2,0)
-        break
-    elif key == "w":
+    elif key == "w": # 前進
+        print("Pressed 'w' key")
         serial_write(1,2)
         serial_write(2,-2)
-    elif key == "a":
+    elif key == "a": # 左
+        print("Pressed 'a' key")
         serial_write(1,-20)
         serial_write(2,10)
     elif key == "s":
+        print("Pressed 's' key") 
         serial_write(1,0)
         serial_write(2,0)
-    elif key == "d":
+    elif key == "d": # 右
+        print("Pressed 'd' key") 
         serial_write(1,-10)
         serial_write(2,20)
-    elif key == "x":
+    elif key == "x": # 後退
         serial_write(1,20)
         serial_write(2,-20)
 
