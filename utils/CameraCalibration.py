@@ -8,7 +8,7 @@ class CameraCalibration:
             mtx: 内部パラメータ
             dist: 歪み係数
         """
-        self.mxt = np.array(mtx)
+        self.mtx = np.array(mtx)
         self.dist = np.array(dist)
     
     def undistort(self, frame):

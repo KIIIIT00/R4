@@ -21,6 +21,13 @@ class CNNEval:
         ])
     
     def get_label(self, predicted_item):
+        """
+        Parameter: 
+            predicted_item : モデルの出力クラス(0, 1, 2)
+        
+        Return:
+            predicted_label : 出力ラベル
+        """
         if self.num_classes == len(self.class_labels):
             predicted_label = self.class_labels[predicted_item]
         elif self.num_classes < len(self.class_labels):
@@ -34,6 +41,15 @@ class CNNEval:
         return predicted_label
 
     def eval(self, segment_frame, segments_times_list):
+        """
+        Parameter:
+            segment_frame : 推論する画像
+            segments_times_list : 画像において，処理時間を格納する配列
+            
+        Return:
+            predicted_label : 予測ラベル
+            segments_times_list : 処理時間を格納した配列
+        """
         pil_image = Image.fromarray(cv2.cvtColor(segment_frame, cv2.COLOR_BGR2RGB))
         image_tensor = self.transform(pil_image).unsqueeze(0)
 
@@ -52,8 +68,3 @@ class CNNEval:
 
 class LabelsError(Exception):
     pass
-
-
-
-
-        

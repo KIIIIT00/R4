@@ -55,23 +55,23 @@ class WeedClassifier:
         prediction = self.model.predict(img_flat)
         return prediction[0]
 
-# if __name__ == '__main__':
-#     # データセットのパス
-#     data_path = "path/to/dataset"
+if __name__ == '__main__':
+    # データセットのパス
+    data_path = "path/to/dataset"
 
-#     # クラスのインスタンス化
-#     classifier = WeedClassifier(data_path)
+    # クラスのインスタンス化
+    classifier = WeedClassifier(data_path)
 
-#     # モデルの学習
-#     classifier.train()
+    # モデルの学習
+    classifier.train()
 
-#     # モデルの保存
-#     classifier.save_model()
+    # モデルの保存
+    classifier.save_model()
 
-#     # モデルの読み込み
-#     classifier.load_model()
+    # モデルの読み込み
+    classifier.load_model()
 
-#     # 新しい画像での予測
-#     image_path = "path/to/image.jpg"
-#     prediction = classifier.predict(image_path)
-#     print("Prediction:", "exist_weed" if prediction == 1 else "no_weed")
+    # 新しい画像での予測
+    image_path = "path/to/image.jpg"
+    prediction = classifier.predict(image_path)
+    print("Prediction:", "exist_weed" if prediction == 1 else "no_weed")

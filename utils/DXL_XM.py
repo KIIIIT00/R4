@@ -163,21 +163,40 @@ class DynamixelXM:
       """
       self.set_goal_position(3517)
 
+   def cleaner_wipe(self):
+      self.setting_position_mode()
+      self.enable_torque()
+      time.sleep(1)
+      self.ccw_rotate(13)
+      time.sleep(3)
+      #motor.init_position()
+      self.cw_rotate(13)
+      time.sleep(3)
+      self.disable_torque()
+      self.close_port()
+   
+   def move_by_state(self, state):
+      try:
+         if state == -1:
+            print("Adjusting to initial position")
+            self.init_position()
+         elif state == 1:
+            move_cm = 3
+            print(f"Adjusting to {move_cm}cm (CW)")
+            self.ccw_rotate(move_cm)
+         elif state == 2:
+            move_cm = 7
+            print(f"Adjusting to {move_cm}cm (CW)")
+            self.ccw_rotate(7)
+         elif state == 3:
+            move_cm = 13
+            print(f"Adjusting to {move_cm}cm (CW)")
+            self.ccw_rotate(move_cm)
+      except AttributeError:
+         pass
    def close_port(self):
       self.port_handler.closePort()
 
-def cleaner_wipe():
-   motor = DynamixelXM(port_name="/dev/cu.usbserial-FT4TCJC1", baudrate=115200, dxl_id=4)
-   motor.setting_position_mode()
-   motor.enable_torque()
-   time.sleep(1)
-   motor.ccw_rotate(13)
-   time.sleep(3)
-   #motor.init_position()
-   motor.cw_rotate(13)
-   time.sleep(3)
-   motor.disable_torque()
-   motor.close_port()
 
-if __name__ == "__main__":
-   cleaner_wipe()
+
+
