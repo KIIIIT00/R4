@@ -45,6 +45,9 @@ class DDSM115:
             print("Pressed 'd' key")  
             self.serial_write(1,-10)
             self.serial_write(2,20)
+        else:
+            self.serial_write(1,2)
+            self.serial_write(2,-2)
     
     def close(self):
         self.ser.close()
