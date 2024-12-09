@@ -25,23 +25,23 @@ class DDSM115:
         Parameter:
             key : キーボード入力
         """
-        if key == 'q': # 停止
+        if key == ord('q'): # 停止
             print("Pressed 'q' key") 
             self.serial_write(1,0)
             self.serial_write(2,0)
-        elif key == "w": # 前進
+        elif key == ord('w'): # 前進
             print("Pressed 'w' key") 
             self.serial_write(1,2)
             self.serial_write(2,-2)
-        elif key == "s": # 後退
+        elif key == ord('s'): # 後退
             print("Pressed 's' key") 
             self.serial_write(1,20)
             self.serial_write(2,-20)
-        elif key == "a": # 左
+        elif key == ord('a'): # 左
             print("Pressed 'a' key") 
             self.serial_write(1,-20)
             self.serial_write(2,10)
-        elif key == "d": # 右
+        elif key == ord('d'): # 右
             print("Pressed 'd' key")  
             self.serial_write(1,-10)
             self.serial_write(2,20)

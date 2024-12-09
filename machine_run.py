@@ -96,7 +96,7 @@ frame_display = FrameDisplay(detection_frames_num, num_classes)
 input_key = ''
 while cap.isOpened():
     # キーボード入力で車輪を操作
-    input_key = input()
+    input_key = cv2.waitKey(0)
     ddsm.move(input_key)
     
     ret, frame = cap.read()
