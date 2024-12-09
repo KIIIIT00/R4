@@ -47,7 +47,11 @@ def thread_task(upper_weed_cnt, middle_weed_cnt, bottom_weed_cnt):
     state = decision_state(upper_weed_cnt, middle_weed_cnt, bottom_weed_cnt)
     dxl_xm.move_by_state(state)
     time.sleep(5)
-    
+
+def join_thread(upper_weed_cnt, middle_weed_cnt, bottom_weed_cnt):
+    state = decision_state(upper_weed_cnt, middle_weed_cnt, bottom_weed_cnt)
+    return dxl_xm.is_current_same_as_destination(state)
+
 # Matrix of Internal Parameters 
 mtx = [[1.53602652e+03,0.00000000e+00,9.70163963e+02],[0.00000000e+00,1.53797480e+03,4.82325767e+02],[0.00000000e+00,0.00000000e+00,1.00000000e+00]]
 # Distortion Factor
@@ -99,7 +103,8 @@ model = CNNEval(model_path=model_path, image_size=input_size, num_classes=num_cl
 detection_frames_num = 6 # detection segments frames number(select 6 or 9)
 frame_display = FrameDisplay(detection_frames_num, num_classes)
 
-input_key = ''
+state = -1
+dxl_xm.move_by_state(state)
 while cap.isOpened():
     # キーボード入力で車輪を操作
     input_key = cv2.waitKey(0)
@@ -142,9 +147,11 @@ while cap.isOpened():
                     args=(upper_weed_cnt,
                           middle_weed_cnt,
                           bottom_weed_cnt,
-                          ))
+                          )
+                    )
     thread.start()
-    thread.join()
+    if join_thread(upper_weed_cnt, middle_weed_cnt, bottom_weed_cnt):
+        thread.join()
     
     "-------------------------"
     # TODO: 吸引して初期位置に戻るまでの時間をここで調整
@@ -167,6 +174,11 @@ while cap.isOpened():
             f.write(f"  Segment {idx + 1} Time: {t:.4f} seconds\n")
         f.write("\n")
     
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+# 初期状態に戻す
+state = -1
+dxl_xm.move_by_state(state)
 
 # リソースを解放
 # ddsm.close()

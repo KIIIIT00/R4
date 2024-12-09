@@ -25,8 +25,8 @@ class DDSM115:
         Parameter:
             key : キーボード入力
         """
-        if key == ord('q'): # 停止
-            print("Pressed 'q' key") 
+        if key == ord('h'): # 停止
+            print("Pressed 'h' key") 
             self.serial_write(1,0)
             self.serial_write(2,0)
         elif key == ord('w'): # 前進

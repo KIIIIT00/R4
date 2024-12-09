@@ -181,19 +181,29 @@ class DynamixelXM:
             print("Adjusting to initial position")
             self.init_position()
          elif state == 1:
-            move_cm = 3
+            move_cm = 7
             print(f"Adjusting to {move_cm}cm (CW)")
             self.ccw_rotate(move_cm)
          elif state == 2:
-            move_cm = 7
+            move_cm = 13
             print(f"Adjusting to {move_cm}cm (CW)")
             self.ccw_rotate(7)
          elif state == 3:
-            move_cm = 13
+            move_cm = 19
             print(f"Adjusting to {move_cm}cm (CW)")
             self.ccw_rotate(move_cm)
       except AttributeError:
          pass
+   
+   def is_current_same_as_destination(self, state):
+      move_cm_list = [7, 13, 19]
+      if state == -1:
+         return True
+      if self.read_position() == move_cm_list[state]:
+         return True
+      else:
+         return False
+   
    def close_port(self):
       self.port_handler.closePort()
 
