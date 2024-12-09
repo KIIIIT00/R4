@@ -1,6 +1,7 @@
 import cv2
 import os
 import time
+from threading import Thread
 from utils.eval import CNNEval
 from utils.DXL_XM import DynamixelXM
 from utils.ddsm115 import DDSM115
@@ -42,6 +43,11 @@ def decision_state(upper_weed_cnt, middle_weed_cnt, bottom_weed_cnt):
         state = 1
     return state
 
+def thread_task(upper_weed_cnt, middle_weed_cnt, bottom_weed_cnt):
+    state = decision_state(upper_weed_cnt, middle_weed_cnt, bottom_weed_cnt)
+    dxl_xm.move_by_state(state)
+    time.sleep(5)
+    
 # Matrix of Internal Parameters 
 mtx = [[1.53602652e+03,0.00000000e+00,9.70163963e+02],[0.00000000e+00,1.53797480e+03,4.82325767e+02],[0.00000000e+00,0.00000000e+00,1.00000000e+00]]
 # Distortion Factor
@@ -130,16 +136,23 @@ while cap.isOpened():
         out.write(undistorted_frame)
     
     # 吸引しに行く
-    state = decision_state(upper_weed_cnt, middle_weed_cnt, bottom_weed_cnt)
-    dxl_xm.move_by_state(state)
+    # state = decision_state(upper_weed_cnt, middle_weed_cnt, bottom_weed_cnt)
+    # dxl_xm.move_by_state(state)
+    thread = Thread(target=thread_task, 
+                    args=(upper_weed_cnt,
+                          middle_weed_cnt,
+                          bottom_weed_cnt,
+                          ))
+    thread.start()
+    thread.join()
     
     "-------------------------"
     # TODO: 吸引して初期位置に戻るまでの時間をここで調整
     "-------------------------"
     
     # 初期位置に戻す
-    state = -1
-    dxl_xm.move_by_state(state)
+    # state = -1
+    # dxl_xm.move_by_state(state)
     
     cv2.imshow("Weed Detection", frame_with_grid)
     
