@@ -51,8 +51,8 @@ def thread_task(upper_weed_cnt, middle_weed_cnt, bottom_weed_cnt):
     time.sleep(5)
 
 def join_thread(upper_weed_cnt, middle_weed_cnt, bottom_weed_cnt):
-    state = decision_state(upper_weed_cnt, middle_weed_cnt, bottom_weed_cnt)
-    return dxl_xm.is_current_same_as_destination(state)
+    state_list = decision_state(upper_weed_cnt, middle_weed_cnt, bottom_weed_cnt)
+    return dxl_xm.is_current_same_as_destination(state_list)
 
 # Matrix of Internal Parameters 
 mtx = [[1.53602652e+03,0.00000000e+00,9.70163963e+02],[0.00000000e+00,1.53797480e+03,4.82325767e+02],[0.00000000e+00,0.00000000e+00,1.00000000e+00]]

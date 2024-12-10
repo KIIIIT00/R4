@@ -202,11 +202,12 @@ class DynamixelXM:
             else:
                print("No move")
    
-   def is_current_same_as_destination(self, state):
+   def is_current_same_as_destination(self, state_list):
       """
       # TODO: read_positionの許容する誤差範囲を決める
       """
       move_cm_list = [7, 13, 19]
+      state = state_list[len(state_list) - 1]
       if state == -1:
          return True
       if  self.read_position() == move_cm_list[state - 1]:
