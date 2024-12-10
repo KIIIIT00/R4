@@ -62,6 +62,7 @@ class DynamixelXM:
       """
       self.disable_torque()
       self.close_port()
+      
    def enable_torque(self):
       dxl_comm_result, dxl_error = self.packet_handler.write1ByteTxRx(self.port_handler, self.DXL_ID, self.ADDR_TORQUE_ENABLE, self.TORQUE_ENABLE)
       if dxl_comm_result != COMM_SUCCESS:
