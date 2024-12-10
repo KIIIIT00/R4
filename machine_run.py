@@ -107,7 +107,7 @@ state = -1
 dxl_xm.move_by_state(state)
 while cap.isOpened():
     # キーボード入力で車輪を操作
-    input_key = cv2.waitKey(0)
+    input_key = cv2.waitKey(1)
     ddsm.move(input_key)
     
     ret, frame = cap.read()
