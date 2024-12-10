@@ -143,7 +143,7 @@ class DynamixelXM:
     
    def cw_rotate(self, cm):
       """
-      cw方向に15cm移動
+      cw方向に〇cm移動
       """
       position = self.angle2pos(35.87 * cm)
       print(position)
@@ -151,7 +151,7 @@ class DynamixelXM:
 
    def ccw_rotate(self, cm):
       """
-      ccw方向に15cm移動
+      ccw方向に〇cm移動
       """
       position = self.angle2pos(35.87 * (-cm))
       print(position)
@@ -196,10 +196,13 @@ class DynamixelXM:
          pass
    
    def is_current_same_as_destination(self, state):
+      """
+      # TODO: read_positionの許容する誤差範囲を決める
+      """
       move_cm_list = [7, 13, 19]
       if state == -1:
          return True
-      if self.read_position() == move_cm_list[state]:
+      if  self.read_position() == move_cm_list[state - 1]:
          return True
       else:
          return False
