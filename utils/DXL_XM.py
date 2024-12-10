@@ -182,25 +182,25 @@ class DynamixelXM:
       self.disable_torque()
       self.close_port()
    
-   def move_by_state(self, state):
-      try:
-         if state == -1:
-            print("Adjusting to initial position")
-            self.init_position()
-         elif state == 1:
-            move_cm = 7
-            print(f"Adjusting to {move_cm}cm (CW)")
-            self.ccw_rotate(move_cm)
-         elif state == 2:
-            move_cm = 13
-            print(f"Adjusting to {move_cm}cm (CW)")
-            self.ccw_rotate(7)
-         elif state == 3:
-            move_cm = 19
-            print(f"Adjusting to {move_cm}cm (CW)")
-            self.ccw_rotate(move_cm)
-      except AttributeError:
-         pass
+   def move_by_state(self, state_list):
+         for state in state_list:
+            if state == -1:
+               print("Adjusting to initial position")
+               self.init_position()
+            elif state == 1:
+               move_cm = 7
+               print(f"Adjusting to {move_cm}cm (CW)")
+               self.ccw_rotate(move_cm)
+            elif state == 2:
+               move_cm = 13
+               print(f"Adjusting to {move_cm}cm (CW)")
+               self.ccw_rotate(7)
+            elif state == 3:
+               move_cm = 19
+               print(f"Adjusting to {move_cm}cm (CW)")
+               self.ccw_rotate(move_cm)
+            else:
+               print("No move")
    
    def is_current_same_as_destination(self, state):
       """

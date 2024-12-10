@@ -16,36 +16,38 @@ def make_dir(dir_path):
         print(f"Exist Dir Path:{dir_path}")
 
 def detection_weed_count(idx, label, upper_weed_cnt, middle_weed_cnt, bottom_weed_cnt, num_detection_num):
-    class_labels = ['no_weed', 'little_weed', 'many_weed']
-    if num_detection_num == 9:
-        if 0 <= idx and idx < 3:
-            upper_weed_cnt += class_labels.index(label)
-        elif 3 <= idx and idx < 6:
-            middle_weed_cnt += class_labels.index(label)
+    if label == 'many_weed':
+        if num_detection_num == 9:
+            if 0 <= idx and idx < 3:
+                upper_weed_cnt += 1
+            elif 3 <= idx and idx < 6:
+                middle_weed_cnt += 1
+            else:
+                bottom_weed_cnt += 1
         else:
-            bottom_weed_cnt += class_labels.index(label)
-    else:
-        if 0 <= idx and idx < 3:
-            middle_weed_cnt += class_labels.index(label)
-        else:
-            bottom_weed_cnt += class_labels.index(label)
+            if 0 <= idx and idx < 3:
+                middle_weed_cnt += 1
+            else:
+                bottom_weed_cnt += 1
     
     return upper_weed_cnt, middle_weed_cnt, bottom_weed_cnt
     
 def decision_state(upper_weed_cnt, middle_weed_cnt, bottom_weed_cnt):
-    cnt_list = [upper_weed_cnt, middle_weed_cnt, bottom_weed_cnt]
-    max_num = max(upper_weed_cnt, middle_weed_cnt, bottom_weed_cnt)
-    if cnt_list.index(max_num) == 0:
-        state = 3
-    elif cnt_list.index(max_num) == 1:
-        state = 2
-    else:
-        state = 1
-    return state
+    state_list = []
+    if upper_weed_cnt >= 2:
+        state_list.append(3)
+    
+    if middle_weed_cnt >= 2:
+        state_list.append(2)
+    
+    if bottom_weed_cnt >= 2:
+        state_list.append(1)
+        
+    return state_list
 
 def thread_task(upper_weed_cnt, middle_weed_cnt, bottom_weed_cnt):
-    state = decision_state(upper_weed_cnt, middle_weed_cnt, bottom_weed_cnt)
-    dxl_xm.move_by_state(state)
+    state_list = decision_state(upper_weed_cnt, middle_weed_cnt, bottom_weed_cnt)
+    dxl_xm.move_by_state(state_list)
     time.sleep(5)
 
 def join_thread(upper_weed_cnt, middle_weed_cnt, bottom_weed_cnt):
