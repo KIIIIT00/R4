@@ -18,14 +18,14 @@ num_classes = 3  # 雑草の有無を3クラス分類
 
     
 # モデルの読み込み
-EP = 40
-model_path = f"./models/weed_classifier_ep{EP}.pth"
+EP = 10
+model_path = f"./models/weed_classifier_ep{EP}_2classes.pth"
 model = WeedClassifierCNN()
 model.load_state_dict(torch.load(model_path, weights_only=True))
 model.eval()  # 推論モードに設定
 
 # 推論対象画像の準備
-image_path = "./datasets/val/many_weed/frame_0011_1_2_1_factor_0.5.jpg"  # 推論したい画像のパス
+image_path = "./datasets/val/2classes/many_weed/frame_0008_1_2_2_factor_1.0.jpg"  # 推論したい画像のパス
 input_size = (522, 318)
 
 img = cv2.imread(image_path)
@@ -53,7 +53,7 @@ with torch.no_grad():
 end_time = time.time()
 
 # クラスのラベル（適宜変更）
-class_labels = ["little_weed", "many_weed", "no_weed"]
+class_labels = ["exist_weed", "no_weed"]
 
 # 推論結果の表示
 print(f"Predicted Class: {class_labels[predicted.item()]}")

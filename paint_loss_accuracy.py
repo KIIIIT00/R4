@@ -4,7 +4,7 @@
 import json
 import matplotlib.pyplot as plt
 EP = 20
-JSON_FILE_PATH = f"./models/weed_classifier_metrics_ep{EP}_160_4layers.json"
+JSON_FILE_PATH = f"./models/weed_classifier_metrics_ep{EP}_2classes.json"
 # JSONファイルの読み込み
 with open(JSON_FILE_PATH, "r") as f:
     metrics = json.load(f)
@@ -38,5 +38,5 @@ plt.xlabel("Epoch")
 plt.ylabel("Accuracy (%)")
 plt.legend()
 plt.grid(True)
-plt.savefig(f"./figures/accuracy_curve_ep{EP}.png")  # グラフをファイルに保存
+plt.savefig(f"./figures/accuracy_curve_ep{EP}_2classes.png")  # グラフをファイルに保存
 plt.show()

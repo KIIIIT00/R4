@@ -15,14 +15,14 @@ from utils.CNN_weed_classifier import WeedClassifierCNN
 # パラメータ設定
 batch_size = 16
 learning_rate = 0.001
-num_epochs = 10
+num_epochs = 100
 input_size = (522, 318)
-num_classes = 3  # 雑草の有無を3クラス分類
+num_classes = 2  # 雑草の有無を3クラス分類
 
 # フォルダの設定
 data_dir = "./datasets/"
-train_dir = os.path.join(data_dir, "train")  # 訓練データフォルダ
-val_dir = os.path.join(data_dir, "val")      # 検証データフォルダ
+train_dir = os.path.join(data_dir, "train/2classes")  # 訓練データフォルダ
+val_dir = os.path.join(data_dir, "val/2classes")      # 検証データフォルダ
 
 # データ前処理
 transform = transforms.Compose([
@@ -85,6 +85,7 @@ for epoch in range(num_epochs):
     train_losses.append(running_loss/len(train_loader))
     train_accuracies.append(epoch_train_accuracy)
     print(f"Epoch [{epoch+1}/{num_epochs}], Loss: {running_loss/len(train_loader):.4f}")
+    torch.save(model.state_dict(), f"./models/weed_classifier_{epoch}_2classes.pth")
 
     # 検証
     model.eval()
@@ -133,9 +134,9 @@ metrics = {
     "f1_score":f1_list
 }
 
-with open(f"./models/weed_classifier_metrics_ep{num_epochs}_160_4layers.json", "w") as f:
+with open(f"./models/weed_classifier_metrics_ep{num_epochs}_2classes.json", "w") as f:
     json.dump(metrics, f)
 print("損失と正解率を保存しました")
 # モデルの保存
-torch.save(model.state_dict(), f"./models/weed_classifier_ep{num_epochs}_160_4layers.pth")
+torch.save(model.state_dict(), f"./models/weed_classifier_ep{num_epochs}_2classes.pth")
 print("モデルを保存しました")

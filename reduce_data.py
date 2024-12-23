@@ -27,7 +27,7 @@ def balance_image_count(folders):
 
     # 最小の画像枚数を取得
     # min_count = min(len(images) for images in image_lists)
-    min_count = 200
+    min_count = 145
     print(f"最小の画像枚数: {min_count}")
 
     # 各フォルダの画像を最小枚数に揃える
@@ -43,9 +43,8 @@ def balance_image_count(folders):
     print("すべてのフォルダの画像枚数を揃えました。")
 
 if __name__ == "__main__":
-    folder = ['./flash_imgs/little_weed',
-              './flash_imgs/many_weed',
-              './flash_imgs/no_weed'
+    folder = ['./datasets/val/2classes/exist_weed',
+              './datasets/val/2classes/no_weed',
               ]
     balance_image_count(folder)
     
