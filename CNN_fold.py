@@ -9,7 +9,7 @@ from sklearn.model_selection import StratifiedKFold
 from sklearn.metrics import classification_report, confusion_matrix
 import seaborn as sns
 import matplotlib.pyplot as plt
-
+import json
 from utils.CNN_weed_classifier import WeedClassifierCNN
 
 # パラメータ設定
@@ -161,7 +161,49 @@ for fold, (train_idx, val_idx) in enumerate(skf.split(np.zeros(len(labels)), lab
     conf_matrix_path = os.path.join(results_dir, f"confusion_matrix_fold{fold+1}.png")
     plt.savefig(conf_matrix_path)
     plt.close()
+    
+    # 損失のグラフを保存
+    plt.figure(figsize=(8, 6))
+    plt.plot(range(1, epochs+1), train_loss_history, label="Train Loss", marker="o")
+    plt.plot(range(1, epochs+1), val_loss_history, label="Validation Loss", marker="o")
+    plt.xlabel("Epochs")
+    plt.ylabel("Loss")
+    plt.title(f"Loss Curve - Fold {fold+1}")
+    plt.legend()
+    plt.grid()
+    loss_curve_path = os.path.join(results_dir, f"loss_curve_fold{fold+1}.png")
+    plt.savefig(loss_curve_path)
+    plt.close()
 
+    # 正解率のグラフを保存
+    plt.figure(figsize=(8, 6))
+    plt.plot(range(1, epochs+1), train_acc_history, label="Train Accuracy", marker="o")
+    plt.plot(range(1, epochs+1), val_acc_history, label="Validation Accuracy", marker="o")
+    plt.xlabel("Epochs")
+    plt.ylabel("Accuracy (%)")
+    plt.title(f"Accuracy Curve - Fold {fold+1}")
+    plt.legend()
+    plt.grid()
+    acc_curve_path = os.path.join(results_dir, f"accuracy_curve_fold{fold+1}.png")
+    plt.savefig(acc_curve_path)
+    plt.close()
+
+    print(f"損失曲線と正解率曲線を保存しました: {loss_curve_path}, {acc_curve_path}")
+
+    # 学習履歴をJSONで保存
+    history_data = {
+        "train_loss": train_loss_history,
+        "val_loss": val_loss_history,
+        "train_acc": train_acc_history,
+        "val_acc": val_acc_history
+    }
+
+    history_json_path = os.path.join(results_dir, f"training_history_fold{fold+1}.json")
+    with open(history_json_path, "w") as json_file:
+        json.dump(history_data, json_file, indent=4)
+
+    print(f"学習履歴を保存しました: {history_json_path}")
+    
     print(f"Fold {fold+1} の結果を保存しました")
 
 # K-Fold 結果を保存
