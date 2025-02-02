@@ -1,7 +1,7 @@
-Fold 1: Validation Accuracy: 95.08%
-Fold 2: Validation Accuracy: 96.09%
-Fold 3: Validation Accuracy: 95.02%
-Fold 4: Validation Accuracy: 95.20%
-Fold 5: Validation Accuracy: 95.02%
+Fold 1: Validation Accuracy: 93.19%
+Fold 2: Validation Accuracy: 94.61%
+Fold 3: Validation Accuracy: 95.38%
+Fold 4: Validation Accuracy: 95.02%
+Fold 5: Validation Accuracy: 95.68%
 
-Best Model from Fold 2 with Accuracy: 96.09%
+Best Model from Fold 5 with Accuracy: 95.68%

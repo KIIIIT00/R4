@@ -1,8 +1,8 @@
               precision    recall  f1-score   support
 
-  exist_weed     0.9546    0.9467    0.9506       844
-     no_weed     0.9471    0.9550    0.9510       844
+  exist_weed     0.9418    0.9206    0.9311       844
+     no_weed     0.9224    0.9431    0.9326       844
 
-    accuracy                         0.9508      1688
-   macro avg     0.9509    0.9508    0.9508      1688
-weighted avg     0.9509    0.9508    0.9508      1688
+    accuracy                         0.9319      1688
+   macro avg     0.9321    0.9319    0.9319      1688
+weighted avg     0.9321    0.9319    0.9319      1688
