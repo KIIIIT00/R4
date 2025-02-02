@@ -21,8 +21,8 @@ num_classes = 2  # 雑草の有無を3クラス分類
 
 # フォルダの設定
 data_dir = "./datasets/"
-train_dir = os.path.join(data_dir, "train/2classes")  # 訓練データフォルダ
-val_dir = os.path.join(data_dir, "val/2classes")      # 検証データフォルダ
+train_dir = os.path.join(data_dir, "train")  # 訓練データフォルダ
+val_dir = os.path.join(data_dir, "test")      # 検証データフォルダ
 
 # データ前処理
 transform = transforms.Compose([
