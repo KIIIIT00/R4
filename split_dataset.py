@@ -49,18 +49,18 @@ def split_images(input_folder, train_folder, val_folder, train_ratio=0.8, seed=4
 
 
 # 使用例
-input_folder = "./flash_imgs/no_weed"  # 画像が格納されたフォルダ
-train_folder = "./datasets/train/2classes/no_weed"   # 訓練用データ出力フォルダ
-val_folder = "./datasets/val/2classes/no_weed"       # 評価用データ出力フォルダ
+input_folder = "./datasets/reduce/exist_weed"  # 画像が格納されたフォルダ
+train_folder = "./datasets/train/exist_weed"   # 訓練用データ出力フォルダ
+val_folder = "./datasets/test/exist_weed"       # 評価用データ出力フォルダ
 
-split_images(input_folder, train_folder, val_folder, train_ratio=0.6)
+split_images(input_folder, train_folder, val_folder, train_ratio=0.5)
 
-input_folder = "./flash_imgs/little_weed"  # 画像が格納されたフォルダ
-train_folder = "./datasets/train/2classes/little_weed"   # 訓練用データ出力フォルダ
-val_folder = "./datasets/val/2classes/little_weed"       # 評価用データ出力フォルダ
-split_images(input_folder, train_folder, val_folder, train_ratio=0.6)
+input_folder = "./datasets/reduce/no_weed"  # 画像が格納されたフォルダ
+train_folder = "./datasets/train/no_weed"   # 訓練用データ出力フォルダ
+val_folder = "./datasets/test/no_weed"       # 評価用データ出力フォルダ
+split_images(input_folder, train_folder, val_folder, train_ratio=0.5)
 
-input_folder = "./flash_imgs/many_weed"  # 画像が格納されたフォルダ
-train_folder = "./datasets/train/2classes/many_weed"   # 訓練用データ出力フォルダ
-val_folder = "./datasets/val/2classes/many_weed"       # 評価用データ出力フォルダ
-split_images(input_folder, train_folder, val_folder, train_ratio=0.6)
+# input_folder = "./flash_imgs/many_weed"  # 画像が格納されたフォルダ
+# train_folder = "./datasets/train/2classes/many_weed"   # 訓練用データ出力フォルダ
+# val_folder = "./datasets/val/2classes/many_weed"       # 評価用データ出力フォルダ
+# split_images(input_folder, train_folder, val_folder, train_ratio=0.6)

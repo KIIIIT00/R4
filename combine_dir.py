@@ -26,6 +26,6 @@ def combine(soruce_folders, destination_folder):
     print("Save all")
 
 if __name__ == '__main__':
-    soruce_folders = ['./datasets/train/2classes/little_weed', './datasets/train/2classes/many_weed']
-    destination_folder = './datasets/train/2classes/exist_weed'
+    soruce_folders = ['./dataset/asphalt_weed_5/weed', './dataset/little_many_weed']
+    destination_folder = './datasets/original/exist_weed'
     combine(soruce_folders, destination_folder)

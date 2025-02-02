@@ -9,8 +9,8 @@ import torchvision.transforms as transforms
 
 
 # 必要なフォルダーのパスを指定
-input_folder = "./datasets/train/2classes/exist_weed"  # 元画像が保存されているフォルダー
-output_folder = "./datasets/train/2classes/exist_weed"  # 加工後の画像を保存するフォルダー
+input_folder = "./datasets/train/exist_weed"  # 元画像が保存されているフォルダー
+output_folder = "./datasets/train/exist_weed"  # 加工後の画像を保存するフォルダー
 
 # 出力フォルダーを作成（存在しない場合）
 os.makedirs(output_folder, exist_ok=True)
@@ -36,7 +36,7 @@ def transform_scale_up(image):
     new_height = int(original_height * scale_factor)
     
     # 一時的に拡大した画像を生成
-    scaled_image = image.resize((new_width, new_height), Image.LANCZOS)
+    scaled_image = image.resize((new_width, new_height), Image.Resampling.LANCZOS)
     
     # 拡大した画像を元のサイズにクロップ（中心を維持）
     left = (new_width - original_width) // 2
@@ -53,14 +53,9 @@ def transform_scale_down(image):
     new_height = int(original_height * scale_factor)
     
     # 縮小した画像を元のサイズにリサイズ
-    scaled_image = image.resize((new_width, new_height), Image.LANCZOS)
-    return scaled_image.resize((original_width, original_height), Image.LANCZOS)
+    scaled_image = image.resize((new_width, new_height), Image.Resampling.LANCZOS)
+    return scaled_image.resize((original_width, original_height), Image.Resampling.LANCZOS)
 
-def adjust_brightness(image, factor):
-    bright_transform = transforms.ColorJitter(brightness=factor)
-    adjusted_image = bright_transform(image)
-    return adjusted_image
-    
 # フォルダー内の全ての画像に対して変換を適用
 def process_images(input_folder, output_folder):
     # サポートされる画像形式のみをフィルタリングし、隠しファイルを除外
@@ -70,10 +65,9 @@ def process_images(input_folder, output_folder):
         # 元画像を開く
         image_path = os.path.join(input_folder, image_file)
         image = Image.open(image_path)
-        image_name = os.path.splitext(image_file)[0]
 
         # オリジナル画像を保存
-        image.save(os.path.join(output_folder, f"image_{i+1}_original.jpg"))
+        # image.save(os.path.join(output_folder, f"image_{i+1}_original.jpg"))
 
         # 各変換を適用
         image_vflip = transform_vertical_flip(image)  # 上下反転
@@ -81,17 +75,13 @@ def process_images(input_folder, output_folder):
         image_vhflip = vertical_horizontal_flip(image)  # 上下左右反転
         image_scaled_up = transform_scale_up(image)  # 拡大（画像サイズ維持）
         image_scaled_down = transform_scale_down(image)  # 縮小（画像サイズ維持）
-        image_brightness_down = adjust_brightness(image, 0.5)
-        image_brightness_up = adjust_brightness(image, 1.5)
 
         # 保存
-        image_vflip.save(os.path.join(output_folder, f"{image_name}_vflip.jpg"))
-        image_hflip.save(os.path.join(output_folder, f"{image_name}_hflip.jpg"))
-        image_vhflip.save(os.path.join(output_folder, f"{image_name}_vhflip.jpg"))
-        image_scaled_up.save(os.path.join(output_folder, f"{image_name}_scaled_up.jpg"))
-        image_scaled_down.save(os.path.join(output_folder, f"{image_name}_scaled_down.jpg"))
-        # image_brightness_down.save(os.path.join(output_folder, f"image_{i+1}_brightness_0.5.jpg"))
-        # image_brightness_up.save(os.path.join(output_folder, f"image_{i+1}_brightness_1.5.jpg"))
+        image_vflip.save(os.path.join(output_folder, f"image_{i+1}_vflip.jpg"))
+        image_hflip.save(os.path.join(output_folder, f"image_{i+1}_hflip.jpg"))
+        image_vhflip.save(os.path.join(output_folder, f"image_{i+1}_vhflip.jpg"))
+        image_scaled_up.save(os.path.join(output_folder, f"image_{i+1}_scaled_up.jpg"))
+        image_scaled_down.save(os.path.join(output_folder, f"image_{i+1}_scaled_down.jpg"))
 
 # 実行
 process_images(input_folder, output_folder)
